@@ -1,12 +1,37 @@
 package com.changyou.community.dto;
 
+
+
+
 public class User {
     private Integer id;
     private String name;
     private String accountId;
     private String token;
     private Long gmtCreate;
-    private Long gmtModified;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", accountId='" + accountId + '\'' +
+                ", token='" + token + '\'' +
+                ", gmtCreate=" + gmtCreate +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", gmtModified=" + gmtModified +
+                '}';
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    private String avatarUrl;
 
     public Integer getId() {
         return id;
@@ -55,4 +80,11 @@ public class User {
     public void setGmtModified(Long gmtModified) {
         this.gmtModified = gmtModified;
     }
+
+
+
+    private Long gmtModified;
+    //private String avataUrl;
+
+
 }
