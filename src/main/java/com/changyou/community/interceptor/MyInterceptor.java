@@ -1,29 +1,43 @@
 package com.changyou.community.interceptor;
 
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.changyou.community.dto.User;
+import com.changyou.community.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 拦截器
  */
+@Service
 public class MyInterceptor implements HandlerInterceptor{
     //在请求处理之前进行调用（Controller方法调用之前
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        System.out.printf("preHandle被调用\n");
-        String name = httpServletRequest.getParameter("name");
 
-        if("xxp".equals(name)){
-            System.out.println("name:"+name);
-            return false;
+        Cookie[] cookies = httpServletRequest.getCookies();
+        if(cookies!=null){
+            for (Cookie cookie : cookies) {
+                if(cookie.getName().equals("token")){
+                    String token = cookie.getValue();
+                    User user = userMapper.getUserByToken(token);
+                    if(user !=null){
+                        httpServletRequest.getSession().setAttribute("user",user);
+                    }
+                    break;
+                }
+            }
         }
-        else{
-            System.out.println("名字不对...");
-        }
+
+
         return true;
     }
 

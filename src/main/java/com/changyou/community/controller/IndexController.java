@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -62,10 +63,25 @@ public class IndexController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request, HttpServletResponse response){
         request.getSession().removeAttribute("user");
 
+        //注意！！！修改、删除Cookie时，新建的Cookie除value、maxAge之外的所有属性，
+        // 例如name、path、domain等，都要与原Cookie完全一样。否则，浏览器将视为两个不同的Cookie不予覆盖，导致修改、删除失败。
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null){
+            for (Cookie cookie : cookies) {
+                if(cookie.getName().equals("token")){
+                    Cookie cookie1 = new Cookie(cookie.getName(), "");
+                    cookie1.setMaxAge(0);
+                    cookie1.setPath(request.getContextPath());
+                    cookie1.setDomain(request.getServerName());
+                    response.addCookie(cookie1);
 
-        return "index";
+                    break;
+                }
+            }
+        }
+        return "redirect:/";
     }
 }
