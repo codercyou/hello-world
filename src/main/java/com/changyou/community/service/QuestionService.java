@@ -3,6 +3,8 @@ package com.changyou.community.service;
 import com.changyou.community.dto.PaginationDTO;
 import com.changyou.community.dto.QuestionDTO;
 import com.changyou.community.dto.User;
+import com.changyou.community.exception.CustomizeErrorCode;
+import com.changyou.community.exception.CustomizeException;
 import com.changyou.community.mapper.QuestionMapper;
 import com.changyou.community.mapper.UserMapper;
 import com.changyou.community.model.Question;
@@ -42,6 +44,7 @@ public class QuestionService {
 
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.count();
+        if(totalCount == 0){return null;}
         paginationDTO.setPagination(totalCount, page, size);
 
         if (page < 1) {
@@ -105,5 +108,33 @@ public class QuestionService {
         paginationDTO.setQuestions(questionDTOList);
         return paginationDTO;
 
+    }
+
+    public QuestionDTO getById(Integer id) {
+        Question question = questionMapper.getById(id);
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question,questionDTO);
+
+        User user =  userMapper.findById(question.getCreator());
+        questionDTO.setUser(user);
+        return questionDTO;
+    }
+
+    public void createOrupdate(Question question1) {
+
+        if(question1.getId()==null){
+            question1.setGmtCreate(System.currentTimeMillis());
+            question1.setGmtModified(question1.getGmtCreate());
+            questionMapper.createQuestion(question1);
+        }else{
+            question1.setGmtModified(question1.getGmtCreate());
+            int updated = questionMapper.update(question1);
+            if(updated!=1){
+                throw new CustomizeException((CustomizeErrorCode.QUESTION_NOT_FOUND));
+            }
+        }
     }
 }

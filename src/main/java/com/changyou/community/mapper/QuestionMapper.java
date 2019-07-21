@@ -1,10 +1,8 @@
 package com.changyou.community.mapper;
 
+import com.changyou.community.dto.QuestionDTO;
 import com.changyou.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -17,16 +15,22 @@ public interface QuestionMapper {
     @Select("select * from question")
     public List<Question> list1();
 
-    @Select("select * from question limit #{offset},#{size}")
+    @Select("select * from question order by id desc limit #{offset},#{size}")
     List<Question> list(@Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
 
 
     @Select("select count(1) from question")
     Integer count();
 
-    @Select("select * from question where creator = #{id} limit #{offset},#{size}")
+    @Select("select * from question where creator = #{id} order by id desc limit #{offset},#{size} ")
     List<Question> listByUser(@Param(value = "id") Integer id, @Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
 
     @Select("select count(1) from question where creator=#{id}")
     Integer countByUser(Integer id);
+
+    @Select("select * from question where id = #{id}")
+    Question getById(Integer id);
+
+    @Update("update question set title = #{title}, description = #{description}, gmt_modified = #{gmtModified}, tag = #{tag} where id = #{id}")
+    int update(Question question1);
 }

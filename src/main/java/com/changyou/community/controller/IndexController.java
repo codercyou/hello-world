@@ -47,17 +47,20 @@ public class IndexController {
             }
         }
 
-        List<QuestionDTO> questionDTOs = questionService.list();
+        /*List<QuestionDTO> questionDTOs = questionService.list();
 
         model.addAttribute("questions",questionDTOs);
         System.out.println("questionDTOs.size:"+questionDTOs.size());
         for (QuestionDTO questionDTO:questionDTOs
              ) {
             System.out.println(questionDTO);
-        }
+        }*/
 
 
         PaginationDTO pagination = questionService.list(page, size);
+        if(pagination == null){
+            return "redirect:/publish";
+        }
         model.addAttribute("pagination", pagination);
         return "index";
     }

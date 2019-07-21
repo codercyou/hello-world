@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title th:text="${question.title}"></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+    <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
+    <script type="text/javascript">
+        /* 鼠标点击特效 - 7Core.CN */
+        var a_idx = 0;jQuery(document).ready(function($) {$("body").click(function(e) {var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善");var $i = $("<span/>").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;var x = e.pageX,y = e.pageY;$i.css({"z-index": 100000000,"top": y - 20,"left": x,"position": "absolute","font-weight": "bold","color": "#ff6651"});$("body").append($i);$i.animate({"top": y - 180,"opacity": 0},1500,function() {$i.remove();});});});
+    </script>
+</head>
+<body>
+<div th:insert="~{navigation::nav}"></div>
+
+<div class="container-fluid main profile">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12">
+            <h3><span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true" th:text="${question.title}"></span></h3>
+            <span class="text-desc">
+                作者：<span th:text="${question.user.name}"></span>
+                |
+                <span th:text="${question.commentCount}">
+
+                </span>
+                个评论 |
+                <span th:text="${question.viewCount}">
+
+                </span>
+                次浏览 |
+                <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm:ss')}">
+
+                </span>
+            </span>
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-12" th:text="${question.description}">
+
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12">
+
+            <a th:href="@{'/publish/'+${question.id}}" class="community-menu" th:if="${session.user!=null && session.user.id == question.creator}">
+                <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑问题
+            </a>
+
+
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12" <!--style="background-color: #ffeef7"-->>
+
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h3>发起人</h3>
+                <div class="media">
+                    <div class="media-left">
+                        <a th:href="@{'/question/'+${question.id}}">
+                            <img class="media-object img-circle media-object" th:src="${question.user.avatarUrl}" alt="...">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading" >
+                            <span th:text="${question.user.name}"></span>
+                        </h5>
+                        <span th:text="${question.description}"></span>
+                        <br>
+                        <span class="text-desc"><span th:text="${question.commentCount}"></span>个评论 • <span th:text="${question.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm:ss')}"></span></span>
+                    </div>
+                </div>
+                <hr class="col-lg-12 col-md-12 col-sm-12">
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12">
+
+
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h3>相关问题</h3>
+            </div>
+
+        </div>
+    </div>
+</div>
+<span class="alert alert-danger" th:text="${errorMessage}" th:if="${errorMessage != null}"></span>
+<div th:if="${session.user !=null}">
+<p th:text="'&nbsp;&nbsp;&nbsp;&nbsp;    当前用户:'+${session.user.name}"></p>
+</div>
+
+</body>
+</html>
