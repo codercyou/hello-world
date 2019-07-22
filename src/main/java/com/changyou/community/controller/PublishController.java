@@ -66,6 +66,7 @@ public class PublishController {
         question1.setGmtCreate(System.currentTimeMillis());
         question1.setGmtModified(question1.getGmtCreate());
         question1.setId(id);
+        //question1.setViewCount();
 
         //questionMapper.createQuestion(question1);
 

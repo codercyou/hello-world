@@ -126,15 +126,27 @@ public class QuestionService {
     public void createOrupdate(Question question1) {
 
         if(question1.getId()==null){
+
             question1.setGmtCreate(System.currentTimeMillis());
             question1.setGmtModified(question1.getGmtCreate());
             questionMapper.createQuestion(question1);
         }else{
+            Question question2 = questionMapper.getById(question1.getId());
+            question1.setViewCount(question2.getViewCount());
             question1.setGmtModified(question1.getGmtCreate());
             int updated = questionMapper.update(question1);
             if(updated!=1){
                 throw new CustomizeException((CustomizeErrorCode.QUESTION_NOT_FOUND));
             }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = questionMapper.getById(id);
+        //Question question1  = new Question();
+        //question.setViewCount(question.getViewCount()+1);
+
+
+        questionMapper.updateViewCount(question);
     }
 }
