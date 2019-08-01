@@ -1,16 +1,21 @@
-package com.changyou.community.model;
+package com.changyou.community.dto;
 
-public class Comment {
+/**
+ *
+ */
+
+public class CommentDTO {
     private Long id;
     private Long parentId;
     private Integer type;
     private Integer commentator;
     private Long gmtCreate;
     private Long gmtModified;
+    private Long likeCount;
 
     @Override
     public String toString() {
-        return "Comment{" +
+        return "CommentDTO{" +
                 "id=" + id +
                 ", parentId=" + parentId +
                 ", type=" + type +
@@ -19,11 +24,12 @@ public class Comment {
                 ", gmtModified=" + gmtModified +
                 ", likeCount=" + likeCount +
                 ", content='" + content + '\'' +
+                ", user=" + user +
                 '}';
     }
 
-    private Long likeCount;
     private String content;
+    private User user;
 
     public Long getId() {
         return id;
@@ -87,5 +93,13 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

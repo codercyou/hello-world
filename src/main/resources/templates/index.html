@@ -6,8 +6,12 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/community.css">
+    <link rel="stylesheet" href="css/ir-main.css">
+    <link rel="stylesheet" href="css/reset.css">
+
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script type="text/javascript" src="http://statics.ir.changyou.com/js/ir-banner.js"></script>
     <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
     <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
     <script type="text/javascript">
@@ -15,12 +19,45 @@
         var a_idx = 0;jQuery(document).ready(function($) {$("body").click(function(e) {var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善");var $i = $("<span/>").text(a[a_idx]);
             a_idx = (a_idx + 1) % a.length;var x = e.pageX,y = e.pageY;$i.css({"z-index": 100000000,"top": y - 20,"left": x,"position": "absolute","font-weight": "bold","color": "#ff6651"});$("body").append($i);$i.animate({"top": y - 180,"opacity": 0},1500,function() {$i.remove();});});});
     </script>
+
+    <script type="application/javascript">
+        window.onload = function () {
+            var closable = window.localStorage.getItem("closable");
+            if (closable == "true") {
+                window.close();
+                window.localStorage.removeItem("closable");
+            }
+        }
+    </script>
+
 </head>
 <body>
 <div th:insert="~{navigation::nav}"></div>
 
-<div class="container-fluid main">
+<div class="container-fluid main col-lg-12 col-md-12 col-sm-12">
     <div class="row">
+        <div class="slider-container" style="    margin-top: -50px; margin-left: -28px; margin-bottom: 19px;">
+            <div class="main-slider">
+                <div class="slide-item item_01" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big1.jpg">
+                </div>
+                <div class="slide-item item_02" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big2.jpg">
+                </div>
+                <div class="slide-item item_03" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big3.jpg">
+                </div>
+                <div class="slide-item item_04 curr" style="display: block;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big4.jpg">
+                </div>
+                <div class="slide-item item_05" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big5.jpg">
+                </div>
+                <div class="slide-item item_06" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big6.jpg">
+                </div>
+            </div>
+        </div>
         <div class="col-lg-9 col-md-12 col-sm-12">
             <h3><span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</h3>
             <hr>

@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="css/ir-main.css">
+    <link rel="stylesheet" href="css/reset.css">
+
+    <script type="text/javascript" src="http://statics.ir.changyou.com/js/ir-banner.js"></script>
     <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
     <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
     <script type="text/javascript">
@@ -21,7 +26,31 @@
 
 <div class="container-fluid main profile">
     <div class="row">
+        <div class="slider-container" style="    margin-top: -50px; margin-left: -28px; margin-bottom: 19px;">
+            <div class="main-slider">
+                <div class="slide-item item_01" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big1.jpg">
+                </div>
+                <div class="slide-item item_02" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big2.jpg">
+                </div>
+                <div class="slide-item item_03" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big3.jpg">
+                </div>
+                <div class="slide-item item_04 curr" style="display: block;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big4.jpg">
+                </div>
+                <div class="slide-item item_05" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big5.jpg">
+                </div>
+                <div class="slide-item item_06" style="display: none;">
+                    <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big6.jpg">
+                </div>
+            </div>
+        </div>
+
         <div class="col-lg-9 col-md-12 col-sm-12">
+            <div class="col-lg-12 col-md-12 col-sm-12">
             <h3><span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true" th:text="${question.title}"></span></h3>
             <span class="text-desc">
                 作者：<span th:text="${question.user.name}"></span>
@@ -38,7 +67,7 @@
 
                 </span>
             </span>
-            <hr>
+            <hr class="col-lg-12 col-md-12 col-sm-12">
             <div class="col-lg-12 col-md-12 col-sm-12" th:text="${question.description}">
 
             </div>
@@ -48,9 +77,59 @@
                 <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑问题
             </a>
 
+                <h4>
+                    <span th:text="${question.commentCount}+'个回复'"></span>
+                </h4>
+                <hr class="col-lg-12 col-md-12 col-sm-12 comment-sp">
+                <div class="col-lg-12 col-md-12 col-sm-12 comments" id = "comment_content_id" th:each="comment:${comments}">
+                    <div class="media">
+                        <div class="media-left">
+                            <a th:href="@{'/question/'+${question.id}}">
+                                <img class="media-object img-rounded media-object" th:src="${comment.user.avatarUrl}" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-heading" >
+                                <span th:text="${comment.user.name}"></span>
+
+                            </h5>
+                            <div>
+                                <span th:text="${comment.content}"></span>
+                            </div>
+                            <div class="menu">
+                                <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                                <span class="glyphicon glyphicon-comment icon"></span>
+                                <span class="pull-right" th:text="${#dates.format(comment.gmtCreate,'yyyy-MM-dd HH:mm:ss')}"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-12 col-md-12 col-sm-12" id = "comment_section">
+                <br>
+                <div class="media">
+                    <div class="media-left">
+                        <a th:href="@{'/question/'+${question.id}}">
+                            <img class="media-object img-rounded media-object" th:src="${question.user.avatarUrl}" alt="...">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading" >
+                            <span th:text="${question.user.name}"></span>
+                        </h5>
+                    </div>
+                </div>
+                <input type="hidden" id="question_id" name="question_id" th:value="${question.id}" />
+                <textarea class="form-control comment" rows="6" id="comment_content" placeholder="请输入评论内容..."></textarea>
+                <button type="button" class="btn btn-success btn-comment" onclick="post()">回复</button>
+            </div>
 
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12" <!--style="background-color: #ffeef7"-->>
+        <div class="col-lg-3 col-md-12 col-sm-12">
 
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <h3>发起人</h3>
@@ -76,6 +155,8 @@
 
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <h3>相关问题</h3>
+                <h4><a>坚持</a></h4>
+                <h4><a>执着</a></h4>
             </div>
 
         </div>

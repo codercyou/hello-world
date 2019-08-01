@@ -1,0 +1,85 @@
+package com.changyou.community.service;
+
+import com.changyou.community.dto.CommentDTO;
+import com.changyou.community.dto.User;
+import com.changyou.community.enums.CommentTypeEnum;
+import com.changyou.community.exception.CustomizeErrorCode;
+import com.changyou.community.exception.CustomizeException;
+import com.changyou.community.mapper.CommentMapper;
+import com.changyou.community.mapper.QuestionMapper;
+import com.changyou.community.mapper.UserMapper;
+import com.changyou.community.model.Comment;
+import com.changyou.community.model.Question;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Service
+public class CommentService {
+    @Autowired
+    private CommentMapper commentMapper;
+    @Autowired
+    private QuestionMapper questionMapper;
+    @Autowired
+    private UserMapper userMapper;
+
+
+    public void insert(Comment comment) {
+        System.out.println("0000000000000000000000000000000000000000");
+        if(comment.getParentId()== null || comment.getParentId() == 0){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+        System.out.println("11111111111111111111111111111111111111111111");
+        if(comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())){
+            throw new CustomizeException(CustomizeErrorCode.TYPE_NOT_EXIST);
+        }
+        if(comment.getType() == CommentTypeEnum.COMMENT.getType()){
+
+            Comment commentByParentId = commentMapper.getCommentByParentId(comment.getParentId());
+            if(commentByParentId == null){
+                throw  new CustomizeException(CustomizeErrorCode.COMMENT_NOT_EXISIT);
+            }else {
+                commentMapper.insert(comment);
+            }
+            //回复评论
+        }else{
+            //回复问题
+            System.out.println("2222222222222222222222222222222222222222222222");
+            Integer parentId=new Integer(comment.getParentId().intValue());
+            Question question = questionMapper.getById(parentId);
+            if(question == null){
+                System.out.println("33333333333333333333333333333333333333333333");
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }else {
+                System.out.println("comment:"+comment);
+                commentMapper.insert(comment);
+                System.out.println("question:"+question);
+                questionMapper.updateCommentCount(question);//增加评论数
+            }
+        }
+
+
+    }
+
+    public List<CommentDTO> listByQuestionId(Integer id) {
+        List<Comment> commentList = commentMapper.getListById(id);
+        System.out.println("commentList:"+commentList);
+        List<CommentDTO> commentDTOList = new ArrayList<>();
+
+        User user = new User();
+
+        for (Comment comment : commentList) {
+            //Integer parentId=new Integer(comment.getParentId().intValue());
+            user = userMapper.findByAccountId(String.valueOf(comment.getCommentator()));
+            CommentDTO commentDTO = new CommentDTO();
+            BeanUtils.copyProperties(comment,commentDTO);
+            commentDTO.setUser(user);
+            commentDTOList.add(commentDTO);
+        }
+        return commentDTOList;
+    }
+}

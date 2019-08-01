@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* reset */
+body {margin:0; padding:0; height:100%; background:#FFF; font-size:12px; color:#737373; font-family: Arial, Helvetica, sans-serif; cursor:default;}
+h1,h2,h3,h4,h5,h6 {margin:0; padding:0;}
+div {margin:0 auto;}
+img {border:0;}
+* {outline:none;}
+ul {margin:0; padding:0; list-style:none;}
+ol {margin:0; padding:0; ist-style:decimal outside none;}
+p,form {margin:0; padding:0;}
+a {text-decoration:none; color:#F11F75;}
+input,select {font-size:12px; font-family: Arial, Helvetica, sans-serif;}
+label {cursor:pointer;}
+
+/****#################################  PNG -BUG  ##################################******/
+* html img.png {
+ background-image: expression(this.runtimeStyle.backgroundImage = "none", this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')", this.src = "http://i2.itc.cn/20090728/688_3831fe88_ef48_46b1_8825_211c37a1ce92_0.gif");
+}
+
+
+
+
+
