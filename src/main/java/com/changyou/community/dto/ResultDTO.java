@@ -3,7 +3,7 @@ package com.changyou.community.dto;
 import com.changyou.community.exception.CustomizeErrorCode;
 import com.changyou.community.exception.CustomizeException;
 
-public class ResultDTO {
+public class ResultDTO<T> {
     private Integer code;
 
     public Integer getCode() {
@@ -24,7 +24,17 @@ public class ResultDTO {
 
     private String message;
 
-    public static ResultDTO errorOf(Integer code,String message){
+    private T data;
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public static ResultDTO errorOf(Integer code, String message){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setCode(code);
         resultDTO.setMessage(message);
@@ -40,6 +50,14 @@ public class ResultDTO {
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setCode(200);
         resultDTO.setMessage("成功");
+        return resultDTO;
+    }
+
+    public static<T> ResultDTO okOf(T t){
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setCode(200);
+        resultDTO.setMessage("成功");
+        resultDTO.setData(t);
         return resultDTO;
     }
 

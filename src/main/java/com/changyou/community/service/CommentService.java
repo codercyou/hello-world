@@ -65,7 +65,7 @@ public class CommentService {
 
     }
 
-    public List<CommentDTO> listByQuestionId(Integer id) {
+    public List<CommentDTO> getCommentListById(Integer id){
         List<Comment> commentList = commentMapper.getListById(id);
         System.out.println("commentList:"+commentList);
         List<CommentDTO> commentDTOList = new ArrayList<>();
@@ -81,5 +81,17 @@ public class CommentService {
             commentDTOList.add(commentDTO);
         }
         return commentDTOList;
+    }
+
+    public List<CommentDTO> listByQuestionId(Integer id) {
+        return this.getCommentListById(id);
+    }
+
+    public List<CommentDTO> listByCommentId(Integer id) {
+        return this.getCommentListById(id);
+    }
+
+    public void addCommentCountById(Long id){
+        commentMapper.addCommentCountById(id);
     }
 }

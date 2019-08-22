@@ -28,12 +28,15 @@ public class QuestionController {
     public String question(@PathVariable(name = "id") Integer id, Model model){
         QuestionDTO questionDTO = questionService.getById(id);
 
+        List<QuestionDTO> relatedQuestions = questionService.getRelatedQuestion(questionDTO);
+        System.out.println("relatedQuestions:"+relatedQuestions);
         List<CommentDTO> comments = commentService.listByQuestionId(id);
         System.out.println("################################################"+comments);
         System.out.println("-------------------------------------------------------->id:"+id);
         questionService.incView(id);//累加阅读数
         model.addAttribute("question",questionDTO);
         model.addAttribute("comments",comments);
+        model.addAttribute("relatedQuestions",relatedQuestions);
         System.out.println("--------------------------------------------------------->questionDTO.getViewCount():"+questionDTO.getViewCount());
         return "question";
     }

@@ -149,4 +149,11 @@ public class QuestionService {
 
         questionMapper.updateViewCount(question);
     }
+
+    public List<QuestionDTO> getRelatedQuestion(QuestionDTO questionDTO) {
+        questionDTO.setTag(questionDTO.getTag().replace(",","|"));
+        List<QuestionDTO> questionDTOList = questionMapper.getRelatedQuestion(questionDTO);
+        questionDTO.setTag(questionDTO.getTag().replace("|",","));
+        return questionDTOList;
+    }
 }

@@ -39,4 +39,7 @@ public interface QuestionMapper {
 
     @Update("update question set title = #{title}, description = #{description}, gmt_modified = #{gmtModified}, tag = #{tag},comment_count = comment_count +1 where id = #{id}")
     int updateCommentCount(Question question1);
+
+    @Select("select * from question where id != #{id} and tag regexp #{tag}")
+    List<QuestionDTO> getRelatedQuestion(QuestionDTO questionDTO);
 }

@@ -12,6 +12,15 @@ public class CommentDTO {
     private Long gmtCreate;
     private Long gmtModified;
     private Long likeCount;
+    private Long commentCount;
+
+    public Long getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Long commentCount) {
+        this.commentCount = commentCount;
+    }
 
     @Override
     public String toString() {
