@@ -38,7 +38,14 @@
 
                     <span th:text="${question.description}"></span>
                     <br>
-                    <span class="text-desc"><span th:text="${question.commentCount}"></span>个评论 • <span th:text="${question.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm:ss')}"></span></span>
+                    <span class="text-desc">
+                        <span th:text="${question.commentCount}"></span>
+                        个评论 • <span th:text="${question.viewCount}"></span>
+                        次浏览 • <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm:ss')}"></span>
+                         • <a th:href="@{'/publish/'+${question.id}}" class="community-menu" th:if="${session.user!=null && session.user.id == question.creator}">
+                        <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑问题
+                        </a>
+                    </span>
                 </div>
             </div>
 

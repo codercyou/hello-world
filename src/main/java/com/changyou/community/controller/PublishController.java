@@ -1,5 +1,7 @@
 package com.changyou.community.controller;
 
+import com.alibaba.druid.util.StringUtils;
+import com.changyou.community.cache.TagCache;
 import com.changyou.community.dto.QuestionDTO;
 import com.changyou.community.dto.User;
 import com.changyou.community.mapper.QuestionMapper;
@@ -29,6 +31,7 @@ public class PublishController {
     @GetMapping("/publish")
     public String publish(Model model) {
         //model.addAttribute("tags", TagCache.get());
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
@@ -38,6 +41,7 @@ public class PublishController {
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
+        model.addAttribute("tags", TagCache.get());
         if(title==null || "".equals(title)){
             model.addAttribute("errorMessage","标题不能为空");
             return "publish";
@@ -51,6 +55,11 @@ public class PublishController {
             return "publish";
         }
 
+        String invalid = TagCache.filterInvalid(tag);
+        if (!"".equals(invalid) && invalid!=null) {
+            model.addAttribute("error", "输入非法标签:" + invalid);
+            return "publish";
+        }
         User user=(User)request.getSession().getAttribute("user");
 
         if (user == null){
@@ -82,6 +91,7 @@ public class PublishController {
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
