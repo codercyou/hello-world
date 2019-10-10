@@ -4,7 +4,9 @@ import com.changyou.community.dto.PaginationDTO;
 import com.changyou.community.dto.QuestionDTO;
 import com.changyou.community.dto.User;
 import com.changyou.community.mapper.UserMapper;
+import com.changyou.community.service.NotificationService;
 import com.changyou.community.service.QuestionService;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,9 @@ public class ProfileController {
     private QuestionService questionService;
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/profile/{action}/{page}/{size}")
     public String profile(@PathVariable(name="action") String action, @PathVariable(name = "page") Integer page,
@@ -65,26 +70,43 @@ public class ProfileController {
                             Model model, HttpServletRequest request){
         if("questions".equals(action)){
             model.addAttribute("section","questions");
+            System.out.println();
             model.addAttribute("sectionName","我的提问");
+            User user = (User) request.getSession().getAttribute("user");
+
+            if (user == null){
+                model.addAttribute("errorMessage","未登录");
+                return "redirect:/";
+            }
+            System.out.println("user.getId:"+user.getId());
+            PaginationDTO pagination = questionService.list(user.getId(),page, size);
+            if(pagination!=null) {
+                model.addAttribute("pagination", pagination);
+            }
 
         }else if("replys".equals(action)){
             //这是注释
             model.addAttribute("section","replys");
             model.addAttribute("sectionName","最新回复");
+
+            User user = (User) request.getSession().getAttribute("user");
+
+            if (user == null){
+                model.addAttribute("errorMessage","未登录");
+                return "redirect:/";
+            }
+            Long unreadCount = notificationService.unreadCount(user.getId());
+            model.addAttribute("unreadCount", unreadCount);
+
+            System.out.println("user.getName:"+user.getName());
+            PaginationDTO pagination = notificationService.list(user.getName(),page, size);
+            if(pagination!=null) {
+                model.addAttribute("pagination", pagination);
+            }
         }
 
 
-        User user = (User) request.getSession().getAttribute("user");
 
-        if (user == null){
-            model.addAttribute("errorMessage","未登录");
-            return "redirect:/";
-        }
-        System.out.println("user.getId:"+user.getId());
-        PaginationDTO pagination = questionService.list(user.getId(),page, size);
-        if(pagination!=null) {
-            model.addAttribute("pagination", pagination);
-        }
 
         return "profile";
     }

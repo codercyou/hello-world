@@ -62,7 +62,7 @@
             <h3><span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</h3>
             <hr>
 
-            <div class="media"  th:each="question:${pagination.questions}">
+            <div class="media"  th:each="question:${pagination.data}">
                 <div class="media-left">
                     <a th:href="@{'/question/'+${question.id}}">
                         <img class="media-object img-circle media-object" th:src="${question.user.avatarUrl}" alt="...">

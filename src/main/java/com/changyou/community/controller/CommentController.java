@@ -54,7 +54,7 @@ public class CommentController {
         comment.setLikeCount(0L);
 
         System.out.println("******************************************************");
-        commentService.insert(comment);
+        commentService.insert(comment,user);
         System.out.println("#######################################################");
 
         System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");

@@ -39,13 +39,14 @@
                     <li th:if="${session.user!=null}">
                         <a href="/publish" class="bg-danger">点击此处发布问题</a>
                     </li>
+                    <li><a href="/profile/replies">通知<span class="badge" style="margin-left: 3px;margin-bottom: 5px; background-color: darkred" >42</span></a></li>
                     <li class="dropdown" th:if="${session.user !=null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <span th:text="${session.user.name}"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/profile/questions">个人中心</a></li>
+                            <li><a href="/profile/questions">我的提问</a></li>
                             <li th:if="${session.user!=null}">
                                 <a href="/logout">退出登录</a>
                             </li>

@@ -25,7 +25,7 @@
             <h3><span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true" th:text="${sectionName}"></span></h3>
             <hr>
 
-            <div class="media" th:each="question:${pagination.questions}">
+            <div class="media" th:each="question:${pagination.data}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-circle media-object" th:src="${question.user.avatarUrl}" alt="...">
@@ -85,7 +85,7 @@
             <div class="list-group section">
                 <br>
                 <a href="/profile/questions?page=1&size=5"  th:class="${section == 'questions'}? 'list-group-item active' : 'list-group-item'">我的问题</a>
-                <a href="/profile/replys?page=1&size=5" th:class="${section == 'replys'}? 'list-group-item active' : 'list-group-item'">
+                <a href="/profile/replys" th:class="${section == 'replys'}? 'list-group-item active' : 'list-group-item'">
                     最新回复
                     <span class="badge">14</span>
                 </a>
