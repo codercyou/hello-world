@@ -8,6 +8,7 @@ import com.changyou.community.enums.NotificationTypeEnum;
 import com.changyou.community.exception.CustomizeErrorCode;
 import com.changyou.community.exception.CustomizeException;
 import com.changyou.community.mapper.NotificationMapper;
+import com.changyou.community.mapper.UserMapper;
 import com.changyou.community.model.Notification;
 import com.changyou.community.model.Question;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +25,9 @@ public class NotificationService {
     @Autowired
     private NotificationMapper notificationMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     public PaginationDTO list(String userId, Integer page, Integer size) {
 
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
@@ -33,6 +37,9 @@ public class NotificationService {
 
         Integer totalCount = notificationMapper.countByUserId(userId);
 
+        if (totalCount == 0) {
+            return paginationDTO;
+        }
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
@@ -61,6 +68,7 @@ public class NotificationService {
             NotificationDTO notificationDTO = new NotificationDTO();
             BeanUtils.copyProperties(notification, notificationDTO);
             notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
+            notificationDTO.setNotifierName(userMapper.getUserNameByAccountId(notification.getNotifierName()));
             notificationDTOS.add(notificationDTO);
         }
         paginationDTO.setData(notificationDTOS);
@@ -77,7 +85,7 @@ public class NotificationService {
         if (notification == null) {
             throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
         }
-        if (!Objects.equals(notification.getReceiver(), user.getId())) {
+        if (!Objects.equals(notification.getNotifierName(), user.getAccountId())) {
             throw new CustomizeException(CustomizeErrorCode.READ_NOTIFICATION_FAIL);
         }
 
@@ -88,5 +96,6 @@ public class NotificationService {
         BeanUtils.copyProperties(notification, notificationDTO);
         notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
         return notificationDTO;
+
     }
 }

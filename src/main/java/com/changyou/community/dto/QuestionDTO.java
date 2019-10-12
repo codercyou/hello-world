@@ -4,6 +4,16 @@ public class QuestionDTO {
     private Integer id;
     private String title;
     private String description;
+    private String descriptionSimple;
+
+    public String getDescriptionSimple() {
+        return descriptionSimple;
+    }
+
+    public void setDescriptionSimple(String descriptionSimple) {
+        this.descriptionSimple = descriptionSimple;
+    }
+
     private String tag;
     private Long gmtCreate;
     private Long gmtModified;

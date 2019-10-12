@@ -58,7 +58,7 @@ public class CommentService {
                     throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
                 }
                 //创建通知
-                createNotify(comment,Long.parseLong(commentByParentId.getCommentator()+""),commentator.getName(),question.getTitle(),NotificationTypeEnum.REPLY_COMMENT,Long.parseLong(question.getId()+""));
+                createNotify(comment,Long.parseLong(commentByParentId.getCommentator()+""),comment.getCommentator()+"",question.getTitle(),NotificationTypeEnum.REPLY_COMMENT,Long.parseLong(question.getId()+""));
 
             }
 
@@ -80,8 +80,10 @@ public class CommentService {
                 System.out.println("commentator.getAccountId():"+commentator.getAccountId());
                 System.out.println("question.getId():"+question.getId());
 
+                String notifierName = "";
+                notifierName = userMapper.getAccountIdById(question.getCreator());
                 try {
-                    createNotify(comment, Long.parseLong(question.getCreator() + ""), commentator.getAccountId(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION, question.getId().longValue());
+                    createNotify(comment, Long.parseLong(question.getCreator() + ""), notifierName, question.getTitle(), NotificationTypeEnum.REPLY_QUESTION, question.getId().longValue());
                 }catch (Exception e){
                     e.printStackTrace();
                 }

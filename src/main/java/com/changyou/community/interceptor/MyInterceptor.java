@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.changyou.community.dto.User;
 import com.changyou.community.mapper.UserMapper;
+import com.changyou.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,6 +21,11 @@ public class MyInterceptor implements HandlerInterceptor{
     //在请求处理之前进行调用（Controller方法调用之前
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotificationService notificationService;
+
+
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
 
@@ -32,11 +38,23 @@ public class MyInterceptor implements HandlerInterceptor{
                     if(user !=null){
                         httpServletRequest.getSession().setAttribute("user",user);
                     }
+                    System.out.println();
                     break;
                 }
             }
+            System.out.println();
         }
 
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+
+        if (user == null){
+            httpServletRequest.getSession().setAttribute("errorMessage","未登录");
+            //return "redirect:/";
+        }else {
+            Long unreadCount = notificationService.unreadCount(user.getAccountId());
+            System.out.println("unreadcount:" + unreadCount);
+            httpServletRequest.getSession().setAttribute("unreadCount", unreadCount);
+        }
 
         return true;
     }

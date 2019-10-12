@@ -27,7 +27,7 @@ function post() {
                 if (response.code == 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        window.open("http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://localhost:8081/callback&scope=user&state=1");
+                        window.open("http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://10.12.0.93:8081/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", true);
                     }
                 } else {
@@ -47,6 +47,8 @@ function reply(e) {
     console.log(questionId);
     //alert(questionId)
     var comment = $("#input-"+questionId).val();
+    var test = "collapseComment-"+questionId;
+    console.log("test:"+test);
     //alert(comment);
     if(""==comment||comment ==null){
         alert("请填写回复内容");
@@ -64,13 +66,17 @@ function reply(e) {
         success: function (response) {
             if(response.code == 200){
                 window.location.reload();
-                $("#comment_section").hide();
-                $("#comment_content_id").text("评论成功");
+                //$("#comment_section_reply").hide();
+                //$("#comment_content_id").text("评论成功");
+
+                //$("#test").click()
+                //alert("11111");
+                //$("#test").trigger("click");
             }else{
                 if (response.code == 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        window.open("http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://localhost:8081/callback&scope=user&state=1");
+                        window.open("http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://10.12.0.93:8081/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", true);
                     }
                 } else {

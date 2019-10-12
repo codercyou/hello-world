@@ -26,4 +26,10 @@ public interface UserMapper {
 
     @Update("update user set name = #{name}, token = #{token}, gmt_modified = #{gmtModified},avatar_url = #{avatarUrl} where id = #{id}")
     void update(User user1);
+
+    @Select("select account_id from user where id=#{creator}")
+    String getAccountIdById(Integer creator);
+
+    @Select("select name from user where account_id = #{notifierName}")
+    String getUserNameByAccountId(String notifierName);
 }

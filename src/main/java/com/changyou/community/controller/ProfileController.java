@@ -78,31 +78,43 @@ public class ProfileController {
                 model.addAttribute("errorMessage","未登录");
                 return "redirect:/";
             }
+
+            Long unreadCount = notificationService.unreadCount(user.getAccountId());
+            System.out.println("unreadcount:"+unreadCount);
+            model.addAttribute("unreadCount", unreadCount);
             System.out.println("user.getId:"+user.getId());
             PaginationDTO pagination = questionService.list(user.getId(),page, size);
             if(pagination!=null) {
                 model.addAttribute("pagination", pagination);
             }
 
-        }else if("replys".equals(action)){
+        }else if("replys".equals(action)) {
             //这是注释
-            model.addAttribute("section","replys");
-            model.addAttribute("sectionName","最新回复");
+            model.addAttribute("section", "replys");
+            model.addAttribute("sectionName", "最新回复");
 
             User user = (User) request.getSession().getAttribute("user");
 
-            if (user == null){
-                model.addAttribute("errorMessage","未登录");
+            if (user == null) {
+                model.addAttribute("errorMessage", "未登录");
                 return "redirect:/";
             }
-            Long unreadCount = notificationService.unreadCount(user.getId());
-            model.addAttribute("unreadCount", unreadCount);
+            try
+            {
+                System.out.println("111111user.getName():"+user.getName());
+                Long unreadCount = notificationService.unreadCount(user.getAccountId());
+                System.out.println("unreadcount:"+unreadCount);
+                model.addAttribute("unreadCount", unreadCount);
 
-            System.out.println("user.getName:"+user.getName());
-            PaginationDTO pagination = notificationService.list(user.getName(),page, size);
-            if(pagination!=null) {
-                model.addAttribute("pagination", pagination);
+                System.out.println("22222222user.getName:" + user.getName());
+                PaginationDTO pagination = notificationService.list(user.getAccountId(), page, unreadCount.intValue());
+                if(pagination!=null) {
+                    model.addAttribute("pagination", pagination);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
+
         }
 
 

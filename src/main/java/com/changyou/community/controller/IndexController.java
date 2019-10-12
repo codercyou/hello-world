@@ -6,6 +6,7 @@ import com.changyou.community.dto.User;
 import com.changyou.community.mapper.QuestionMapper;
 import com.changyou.community.mapper.UserMapper;
 import com.changyou.community.model.Question;
+import com.changyou.community.service.NotificationService;
 import com.changyou.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ public class IndexController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/")
     public String index(HttpServletRequest request,Model model,
@@ -56,6 +60,18 @@ public class IndexController {
             System.out.println(questionDTO);
         }*/
 
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null){
+            request.getSession().setAttribute("errorMessage","未登录");
+            //return "redirect:/";
+        }else {
+            System.out.println();
+            Long unreadCount = notificationService.unreadCount(user.getAccountId());
+            System.out.println("unreadcount:" + unreadCount);
+            request.getSession().setAttribute("unreadCount", unreadCount);
+        }
 
         PaginationDTO pagination = questionService.list(page, size);
         if(pagination == null){

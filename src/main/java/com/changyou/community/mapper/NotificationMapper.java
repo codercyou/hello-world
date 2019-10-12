@@ -14,15 +14,15 @@ public interface NotificationMapper {
     public void insert(Notification notification);
 
 
-    @Select("select count(*) from notification where NOTIFIER_NAME = #{userId}")
-    public Integer countByUserId(String userId);
+    @Select("select count(*) from notification where NOTIFIER_NAME = #{userId} and status=0")
+    public Integer countByUserId(@Param(value = "userId") String userId);
 
     @Select("select count(*) from notification where NOTIFIER_NAME = #{userId} and status = #{status}")
-    Long countUnreadCount(String userId, int status);
+    Long countUnreadCount(@Param(value = "userId") String userId, @Param(value = "status") int status);
 
 
-    @Select("select * from notification where NOTIFIER_NAME = #{userId} order by id desc limit #{offset},#{size} ")
-    List<Notification> listByUserId(String userId, Integer offset, Integer size);
+    @Select("select * from notification where NOTIFIER_NAME = #{userId} and status = 0 order by gmt_create desc limit #{offset},#{size} ")
+    List<Notification> listByUserId(@Param(value = "userId") String userId, @Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
 
 
     @Select("select * from notification where id = #{id}")
