@@ -44,4 +44,9 @@ public interface QuestionMapper {
     List<QuestionDTO> getRelatedQuestion(QuestionDTO questionDTO);
 
 
+    @Select("select * from question where title regexp #{search} order by id desc limit #{offset},#{size}")
+    List<Question> listForSearch(@Param(value = "search") String search, @Param(value = "offset") Integer offset, @Param(value = "size" ) Integer size);
+
+    @Select("select count(1) from question where title regexp #{search} ")
+    Integer countForSearch(String search);
 }

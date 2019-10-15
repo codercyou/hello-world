@@ -55,7 +55,8 @@ public class ProfileController {
             return "redirect:/";
         }
 
-        PaginationDTO pagination = questionService.list(page, size);
+        String search = "";
+        PaginationDTO pagination = questionService.list(search,page, size);
         model.addAttribute("pagination", pagination);
 
 

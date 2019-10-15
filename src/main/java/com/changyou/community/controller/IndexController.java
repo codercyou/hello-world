@@ -1,5 +1,6 @@
 package com.changyou.community.controller;
 
+import com.alibaba.druid.support.logging.Log;
 import com.changyou.community.dto.PaginationDTO;
 import com.changyou.community.dto.QuestionDTO;
 import com.changyou.community.dto.User;
@@ -8,6 +9,8 @@ import com.changyou.community.mapper.UserMapper;
 import com.changyou.community.model.Question;
 import com.changyou.community.service.NotificationService;
 import com.changyou.community.service.QuestionService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+
+
 @Controller
+@Slf4j
 public class IndexController {
     @Autowired
     private UserMapper userMapper;
@@ -33,10 +39,13 @@ public class IndexController {
     @Autowired
     private NotificationService notificationService;
 
+
+
     @GetMapping("/")
     public String index(HttpServletRequest request,Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "4") Integer size){
+                        @RequestParam(name = "size", defaultValue = "4") Integer size,
+                        @RequestParam(name = "search", required = false) String search){
         Cookie[] cookies = request.getCookies();
         if(cookies!=null){
             for (Cookie cookie : cookies) {
@@ -68,15 +77,20 @@ public class IndexController {
             //return "redirect:/";
         }else {
             System.out.println();
+
             Long unreadCount = notificationService.unreadCount(user.getAccountId());
             System.out.println("unreadcount:" + unreadCount);
+
             request.getSession().setAttribute("unreadCount", unreadCount);
         }
 
-        PaginationDTO pagination = questionService.list(page, size);
+        PaginationDTO pagination = questionService.list(search, page, size);
         if(pagination == null){
-            return "redirect:/publish";
+            //return "redirect:/publish";
+            model.addAttribute("errorMessage","未找到相关问题");
+            return "redirect:/";
         }
+
         model.addAttribute("pagination", pagination);
         return "index";
     }

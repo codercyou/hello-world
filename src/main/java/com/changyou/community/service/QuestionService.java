@@ -1,5 +1,6 @@
 package com.changyou.community.service;
 
+import com.changyou.community.controller.IndexController;
 import com.changyou.community.dto.PaginationDTO;
 import com.changyou.community.dto.QuestionDTO;
 import com.changyou.community.dto.User;
@@ -8,12 +9,17 @@ import com.changyou.community.exception.CustomizeException;
 import com.changyou.community.mapper.QuestionMapper;
 import com.changyou.community.mapper.UserMapper;
 import com.changyou.community.model.Question;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 @Service
 public class QuestionService {
@@ -23,6 +29,7 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
+    private Logger logger = LoggerFactory.getLogger(QuestionService.class);
     public List<QuestionDTO> list(){
         List<Question>questions = questionMapper.list1();
         List<QuestionDTO> questionDTOS = new ArrayList<QuestionDTO>();
@@ -39,11 +46,18 @@ public class QuestionService {
         return questionDTOS;
     }
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search, Integer page, Integer size) {
 
 
+        logger.info("**************88888888888888888888888888888888888888888888888888**********************8");
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount = questionMapper.count();
+        Integer totalCount=null;
+        if(!StringUtils.isEmpty(search)){
+            totalCount = questionMapper.countForSearch(search);
+        }else{
+            totalCount = questionMapper.count();
+        }
+
         if(totalCount == 0){return null;}
         paginationDTO.setPagination(totalCount, page, size);
 
@@ -57,7 +71,24 @@ public class QuestionService {
 
         //size*(page-1)
         Integer offset = size * (page - 1);
-        List<Question> questions = questionMapper.list(offset, size);
+
+        System.out.println(search+","+offset+","+page);
+
+        List<Question> questions = null;
+        if(!StringUtils.isEmpty(search)){
+            System.out.println("111111111111111111111");
+            try {
+                questions = questionMapper.listForSearch(search, offset, size);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }else{
+            questions = questionMapper.list(offset, size);
+        }
+
+        System.out.println("questions.size():"+questions.size());
+
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
