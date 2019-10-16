@@ -52,10 +52,14 @@ public class QuestionService {
         logger.info("**************88888888888888888888888888888888888888888888888888**********************8");
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount=null;
-        if(!StringUtils.isEmpty(search)){
-            totalCount = questionMapper.countForSearch(search);
-        }else{
-            totalCount = questionMapper.count();
+        try {
+            if (!StringUtils.isEmpty(search)) {
+                totalCount = questionMapper.countForSearch(search);
+            } else {
+                totalCount = questionMapper.count();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
         if(totalCount == 0){return null;}
