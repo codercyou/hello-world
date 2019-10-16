@@ -24,7 +24,7 @@ public class TestFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-        System.out.printf("过滤器实现");
+        System.out.println("过滤器实现");
         System.out.println(((HttpServletRequest) servletRequest).getRequestURI());
         filterChain.doFilter(servletRequest, servletResponse);
 

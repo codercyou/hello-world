@@ -88,7 +88,8 @@ public class IndexController {
         if(pagination == null){
             //return "redirect:/publish";
             model.addAttribute("errorMessage","未找到相关问题");
-            return "redirect:/";
+            //return "redirect:/";
+            return "index";
         }
 
         model.addAttribute("pagination", pagination);

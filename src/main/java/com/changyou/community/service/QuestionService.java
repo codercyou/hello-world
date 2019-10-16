@@ -84,6 +84,7 @@ public class QuestionService {
             }
 
         }else{
+            System.out.println("222222222222222222222222222222******************************");
             questions = questionMapper.list(offset, size);
         }
 
