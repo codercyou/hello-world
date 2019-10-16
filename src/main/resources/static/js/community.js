@@ -27,7 +27,7 @@ function post() {
                 if (response.code == 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        window.open("http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://10.12.0.93:8081/callback&scope=user&state=1");
+                        window.open("http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", true);
                     }
                 } else {
@@ -76,7 +76,7 @@ function reply(e) {
                 if (response.code == 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        window.open("http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://10.12.0.93:8081/callback&scope=user&state=1");
+                        window.open("http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", true);
                     }
                 } else {

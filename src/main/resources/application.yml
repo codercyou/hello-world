@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://10.1.10.19:3306/mybatis
+    url: jdbc:mysql://106.75.12.119:3306/mybatis
     driver-class-name: com.mysql.cj.jdbc.Driver
     #schema:
      # -classpath:1.sql
@@ -15,8 +15,7 @@ spring:
     maxWait: 60000
     timeBetweenEvictionRunsMillis: 60000
     minEvictableIdleTimeMillis: 300000
-    validationQuery: SELECT 1 FROM DUAL
-    testWhileIdle: true
+    validationQuery: SELECT 1 FROM DUAL    testWhileIdle: true
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true

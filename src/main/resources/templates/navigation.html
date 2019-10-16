@@ -32,11 +32,11 @@
                     <span th:text="${errorMessage}" color="red"></span>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://10.12.0.93:8081/callback&scope=user&state=1">登录</a></li>
+                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1">登录</a></li>
 
-                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://10.12.0.93:8081/callback&scope=user&state=1">GitHub登录</a></li>
+                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1">GitHub登录</a></li>
 
-                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://10.12.0.93:8081/callback&scope=user&state=1">微信登录</a></li>
+                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1">微信登录</a></li>
                     <li th:if="${session.user!=null}">
                         <a href="/publish" class="bg-danger">点击此处发布问题</a>
                     </li>
