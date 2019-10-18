@@ -49,4 +49,10 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question where title regexp #{search} ")
     Integer countForSearch(String search);
+
+    @Select("select count(1) from question where tag = #{tag} ")
+    Integer countForTag(String tag);
+
+    @Select("select * from question where tag = #{tag} order by id desc limit #{offset},#{size}")
+    List<Question> listForTag(@Param(value = "tag") String tag, @Param(value = "offset") Integer offset, @Param(value = "size" ) Integer size);
 }

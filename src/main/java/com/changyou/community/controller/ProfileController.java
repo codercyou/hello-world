@@ -56,7 +56,8 @@ public class ProfileController {
         }
 
         String search = "";
-        PaginationDTO pagination = questionService.list(search,page, size);
+        String tag="";
+        PaginationDTO pagination = questionService.list(tag,search,page, size);
         model.addAttribute("pagination", pagination);
 
 

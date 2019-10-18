@@ -46,7 +46,7 @@ public class QuestionService {
         return questionDTOS;
     }
 
-    public PaginationDTO list(String search, Integer page, Integer size) {
+    public PaginationDTO list(String tag,String search, Integer page, Integer size) {
 
 
         logger.info("**************88888888888888888888888888888888888888888888888888**********************8");
@@ -55,12 +55,17 @@ public class QuestionService {
         try {
             if (!StringUtils.isEmpty(search)) {
                 totalCount = questionMapper.countForSearch(search);
-            } else {
+            } else if (!StringUtils.isEmpty(tag)) {
+                System.out.println();
+                totalCount = questionMapper.countForTag(tag);
+            }else {
                 totalCount = questionMapper.count();
             }
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        System.out.println("totalCount:"+totalCount);
 
         if(totalCount == 0){return null;}
         paginationDTO.setPagination(totalCount, page, size);
@@ -80,7 +85,7 @@ public class QuestionService {
 
         List<Question> questions = null;
         if(!StringUtils.isEmpty(search)){
-            System.out.println("111111111111111111111");
+            System.out.println("111111111111111111111111111111111111");
             try {
                 questions = questionMapper.listForSearch(search, offset, size);
             }catch(Exception e){
@@ -90,6 +95,22 @@ public class QuestionService {
         }else{
             System.out.println("222222222222222222222222222222******************************");
             questions = questionMapper.list(offset, size);
+        }
+
+        if(StringUtils.isEmpty(search)) {
+            if (!StringUtils.isEmpty(tag)) {
+                System.out.println("111111111111111111111");
+                try {
+                    System.out.println();
+                    questions = questionMapper.listForTag(tag, offset, size);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                System.out.println("333333333333333333333333333******************************");
+                questions = questionMapper.list(offset, size);
+            }
         }
 
         System.out.println("questions.size():"+questions.size());
@@ -109,6 +130,8 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
+        System.out.println("^^66666666666666666666666666666666666666666666");
+        System.out.println("questionDTOList.size():"+questionDTOList.size());
         paginationDTO.setData(questionDTOList);
         return paginationDTO;
     }
@@ -192,7 +215,7 @@ public class QuestionService {
     }
 
     public List<QuestionDTO> getRelatedQuestion(QuestionDTO questionDTO) {
-        questionDTO.setTag(questionDTO.getTag().replace(",","|"));
+        questionDTO.setTag(questionDTO.getTag().replace(",","|").replace("+","\\+"));
         List<QuestionDTO> questionDTOList = questionMapper.getRelatedQuestion(questionDTO);
         questionDTO.setTag(questionDTO.getTag().replace("|",","));
         return questionDTOList;

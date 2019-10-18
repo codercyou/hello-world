@@ -1,6 +1,7 @@
 package com.changyou.community.controller;
 
 import com.alibaba.druid.support.logging.Log;
+import com.changyou.community.cache.HotTagCache;
 import com.changyou.community.dto.PaginationDTO;
 import com.changyou.community.dto.QuestionDTO;
 import com.changyou.community.dto.User;
@@ -40,12 +41,15 @@ public class IndexController {
     private NotificationService notificationService;
 
 
+    @Autowired
+    private HotTagCache hotTagCache;
 
     @GetMapping("/")
     public String index(HttpServletRequest request,Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "4") Integer size,
-                        @RequestParam(name = "search", required = false) String search){
+                        @RequestParam(name = "search", required = false) String search,
+                        @RequestParam(name = "tag", required = false) String tag){
         Cookie[] cookies = request.getCookies();
         if(cookies!=null){
             for (Cookie cookie : cookies) {
@@ -84,7 +88,8 @@ public class IndexController {
             request.getSession().setAttribute("unreadCount", unreadCount);
         }
 
-        PaginationDTO pagination = questionService.list(search, page, size);
+        System.out.println("search----->"+search);
+        PaginationDTO pagination = questionService.list(tag,search, page, size);
         if(pagination == null){
             //return "redirect:/publish";
             model.addAttribute("errorMessage","未找到相关问题");
@@ -92,7 +97,11 @@ public class IndexController {
             return "index";
         }
 
+        List<String> tags = hotTagCache.getHots();
         model.addAttribute("pagination", pagination);
+        model.addAttribute("search", search);
+        model.addAttribute("tag", tag);
+        model.addAttribute("tags", tags);
         return "index";
     }
 
