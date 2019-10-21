@@ -37,10 +37,10 @@ body.index #sub_banner{ display:none;}
 .banner-index {height:220px; /*background:url(http://i3.itc.cn/20101020/9c8_bf073d88_9d49_4e2e_afab_29a6c96128a7_0.jpg) repeat-x;*/ position:relative; overflow:hidden;}
 .banner-index img {width:980px; height:220px;}
 #bannerSwf{ position:absolute; left:50%; top:0px; margin-left:-840px;width:1680px;}
-.slider-container{width:100%;height:220px;overflow:hidden;position:relative;}
+.slider-container{width:1198px;height:220px;overflow:hidden;position:relative;}
 .main-slider{width:1680px;height:220px;position:relative;overflow:hidden;margin:0 auto;}
 .slide-item{width:1680px;position:absolute;left:0;top:0;display:none;}
-.slide-item img{width:1680px;height:220px;}
+.slide-item img{width:1680px;height:220px;margin-left: 27px;}
 .thumbs{position:absolute;left:0;top:230px;z-index:4;width:100%;height:40px;margin:0;padding:0;text-align:center;}
 .thumbs li{list-style:none;display:inline-block;*display:inline;zoom:1;margin-right:20px;width:50px;height:30px;background-repeat:no-repeat;background-position:0 0;border:5px solid #f2f2f2;}
 .thumbs li.thumb1{background-image:url(http://i0.cy.com/source/img/ir/banner/image1.jpg)}

@@ -7,7 +7,9 @@ import com.changyou.community.dto.QuestionDTO;
 import com.changyou.community.dto.User;
 import com.changyou.community.mapper.QuestionMapper;
 import com.changyou.community.mapper.UserMapper;
+import com.changyou.community.model.Ad;
 import com.changyou.community.model.Question;
+import com.changyou.community.service.AdService;
 import com.changyou.community.service.NotificationService;
 import com.changyou.community.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,9 @@ public class IndexController {
 
     @Autowired
     private HotTagCache hotTagCache;
+
+    @Autowired
+    private AdService adService;
 
     @GetMapping("/")
     public String index(HttpServletRequest request,Model model,
@@ -98,10 +103,16 @@ public class IndexController {
         }
 
         List<String> tags = hotTagCache.getHots();
+
+        List<Ad> ads = adService.list();
+        System.out.println(System.currentTimeMillis());
+        System.out.println("--------------------------------------------------->"+ads);
+
         model.addAttribute("pagination", pagination);
         model.addAttribute("search", search);
         model.addAttribute("tag", tag);
         model.addAttribute("tags", tags);
+        request.getServletContext().setAttribute("ads", ads);
         return "index";
     }
 

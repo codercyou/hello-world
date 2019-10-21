@@ -31,12 +31,45 @@
     </script>
 
 </head>
-<body>
+<body style="background:url('images/bg.jpg') repeat">
 <div th:insert="~{navigation::nav}"></div>
+
+<div class="container category" >
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="list">
+                <li class="active"><a href="/">全部</a></li>
+
+                <li>
+                    <a href="/?page=1&search=&tag=java">Java</a>
+                </li>
+                <li>
+                    <a href="/?page=1&search=&tag=php">Php</a>
+                </li>
+                <li>
+                    <a href="https://elasticsearch.cn/explore/category-4">Kibana</a>
+                </li>
+                <li>
+                    <a href="https://elasticsearch.cn/explore/category-13">Beats</a>
+                </li>
+                <li>
+                    <a href="https://elasticsearch.cn/explore/category-12">求职招聘</a>
+                </li>
+                <li>
+                    <a href="https://elasticsearch.cn/explore/category-5">资讯动态</a>
+                </li>
+                <li>
+                    <a href="https://elasticsearch.cn/explore/category-16">活动</a>
+                </li>
+                <li>
+                    <a href="https://elasticsearch.cn/explore/category-18">Elastic日报</a>
+                </li>
+            </ul>
+        </div>
 
 <div class="container-fluid main col-lg-12 col-md-12 col-sm-12">
     <div class="row">
-        <div class="slider-container" style="    margin-top: -50px; margin-left: -28px; margin-bottom: 19px;">
+        <div class="slider-container" style="    margin-top: -34px; margin-left: -28px; margin-bottom: 19px;">
             <div class="main-slider">
                 <div class="slide-item item_01" style="display: none;">
                     <img width="1680" height="220" src="http://i0.cy.com/source/img/ir/banner/image_big1.jpg">
@@ -62,6 +95,24 @@
             <h3><span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</h3>
             <hr>
 
+            <ul class="nav nav-tabs">
+                <li role="presentation" onclick="checkThis()">
+
+                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=new" onclick="checkThis(this)">最新</a>
+                </li>
+                <li role="presentation">
+                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=hot30">30天最热</a>
+                </li>
+                <li role="presentation">
+                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=hot7">7天最热</a>
+                </li>
+                <li role="presentation">
+                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=hot">最热</a>
+                </li>
+                <li role="presentation">
+                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=no" class="red">消灭零回复</a>
+                </li>
+            </ul>
             <div th:if="${pagination}!=null">
             <div class="media"  th:each="question:${pagination.data}" >
                 <div class="media-left">
@@ -128,7 +179,7 @@
                 <h4>热门标签</h4>
                 <ul class="question-related">
                     <li th:each="tag : ${tags}">
-                        <a th:href="@{/(page=1,search=${search},tag=${tag})}" th:text="${tag}"></a>
+                        <a th:href="@{/(page=1,search=${search},tag=${tag}) }" class="hotTags" th:text="${tag}"></a>
                     </li>
                 </ul>
             </div>
@@ -142,6 +193,7 @@
 <p th:text="'&nbsp;&nbsp;&nbsp;&nbsp;    当前用户:'+${session.user.name}"></p>
 </div>
 
-<div th:insert="~{footer :: foot}"></div>
+        <div th:insert="~{footer :: foot}"></div>
+
 </body>
 </html>

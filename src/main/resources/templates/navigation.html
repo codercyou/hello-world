@@ -18,11 +18,11 @@
                     <img src="http://i0.cy.com/source/img/ir/public/logo_t.jpg" style="width: 101px;height: 37px;margin-top: -10px;margin-left: 15px;" class="logo">
                 </a>
                 <a href="http://ir.changyou.com/index.shtml" class="logo navbar-brand" title="Changyou.com"></a>
-                <a class="navbar-brand" href="/" style="color: royalblue; font-weight:bold">QM社区</a>
+                <a class="navbar-brand" href="/" style="color: white; font-weight:bold">QM社区</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="background-color: #499ef3;">
 
                 <form class="navbar-form navbar-left" action="/" method="get">
                     <div class="form-group">
@@ -31,25 +31,46 @@
                     <button type="submit" class="btn btn-default">搜索</button>
                     <span th:text="${errorMessage}" color="red"></span>
                 </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1">登录</a></li>
 
-                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1">GitHub登录</a></li>
-
-                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1">微信登录</a></li>
-                    <li th:if="${session.user!=null}">
-                        <a href="/publish" class="bg-danger">点击此处发布问题</a>
+                <ul class="nav navbar-nav">
+                    <script>
+                        function clickNav(label) {
+                            gtag('event', 'click', {
+                                'event_category': 'LINK',
+                                'event_label': label,
+                                'transport_type': 'NAV'
+                            })
+                        }
+                    </script>
+                    <li th:each="nav : ${session.navs}">
+                        <a th:href="${nav.url}" th:text="${nav.title}" th:onclick="clickNav([[${nav.title}]])" target="_blank"></a>
+                    <li th:each="ad : ${#httpServletRequest.getServletContext().getAttribute('ads')}">
+                        <a th:href="${ad.url}" th:text="${ad.title}" th:onclick="clickNav([[${ad.title}]])"
+                           target="_blank"></a>
                     </li>
-                    <li><a href="/profile/replys">通知<span class="badge" style="margin-left: 3px;margin-bottom: 5px; background-color: darkred" th:text="${session.unreadCount}"></span></a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1" style="color:#fff">登录</a></li>
+
+                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1" style="color:#fff">GitHub登录</a></li>
+
+                    <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1" style="color:#fff">微信登录</a></li>
+                    <li th:if="${session.user!=null}">
+                        <a href="/publish" class="bg-danger" style="color:white">点击此处发布问题</a>
+
+                    </li>
+                    <li><a href="/profile/replys" style="color:#fff">通知<span class="badge" style="margin-left: 3px;margin-bottom: 5px; background-color: darkred" th:text="${session.unreadCount}"></span></a></li>
                     <li class="dropdown" th:if="${session.user !=null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <span th:text="${session.user.name}"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/profile/questions">我的提问</a></li>
+                            <li><a href="/profile/questions" style="color: #fff">我的提问</a></li>
                             <li th:if="${session.user!=null}">
                                 <a href="/logout">退出登录</a>
+
                             </li>
                             <li role="separator" class="divider"></li>
                         </ul>
