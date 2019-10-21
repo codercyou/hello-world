@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:margin-left="http://www.w3.org/1999/xhtml">
 <head>
     <title th:text="${question.title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -18,7 +18,7 @@
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
-<div class="container-fluid main profile">
+<div class="container-fluid main profile " style="margin-left: 30px">
     <div class="row">
 
         <!--左边主要内容-->
