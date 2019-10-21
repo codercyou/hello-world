@@ -57,13 +57,13 @@
 
                     <li th:if="${session.user ==null}"><a href="http://github.com/login/oauth/authorize?client_id=fb8df772723c425b9d3a&redirect_uri=http://106.75.12.119/callback&scope=user&state=1" style="color:#fff">微信登录</a></li>
                     <li th:if="${session.user!=null}">
-                        <a href="/publish" class="bg-danger" style="color:white">点击此处发布问题</a>
+                        <a href="/publish" class="bg-danger" style="color:black">点击此处发布问题</a>
 
                     </li>
                     <li><a href="/profile/replys" style="color:#fff">通知<span class="badge" style="margin-left: 3px;margin-bottom: 5px; background-color: darkred" th:text="${session.unreadCount}"></span></a></li>
                     <li class="dropdown" th:if="${session.user !=null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span th:text="${session.user.name}"></span>
+                            <span th:text="${session.user.name}" style="color:white"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
