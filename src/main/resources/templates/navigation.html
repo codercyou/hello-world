@@ -63,13 +63,13 @@
                     <li><a href="/profile/replys" style="color:#fff">通知<span class="badge" style="margin-left: 3px;margin-bottom: 5px; background-color: darkred" th:text="${session.unreadCount}"></span></a></li>
                     <li class="dropdown" th:if="${session.user !=null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span th:text="${session.user.name}" ></span>
+                            <span th:text="${session.user.name}" style="color: #fff"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="/profile/questions" >我的提问</a></li>
                             <li th:if="${session.user!=null}">
-                                <a href="/logout" style="color: #fff">退出登录</a>
+                                <a href="/logout" >退出登录</a>
 
                             </li>
                             <li role="separator" class="divider"></li>
