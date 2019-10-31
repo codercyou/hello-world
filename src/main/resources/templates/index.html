@@ -20,6 +20,13 @@
             a_idx = (a_idx + 1) % a.length;var x = e.pageX,y = e.pageY;$i.css({"z-index": 100000000,"top": y - 20,"left": x,"position": "absolute","font-weight": "bold","color": "#ff6651"});$("body").append($i);$i.animate({"top": y - 180,"opacity": 0},1500,function() {$i.remove();});});});
     </script>
 
+    <script type="text/javascript">
+        function checkThis(this) {
+            var id = this.getField();
+            alert("id:"+id);
+        }
+    </script>
+
     <script type="application/javascript">
         window.onload = function () {
             var closable = window.localStorage.getItem("closable");
@@ -98,19 +105,20 @@
             <ul class="nav nav-tabs">
                 <li role="presentation" onclick="checkThis()">
 
-                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=new" onclick="checkThis(this)">最新</a>
+                    <a href="#" onclick="checkThis(this)">最新</a>
+                    <button id = "button_id" onclick="checkThis(this)">按钮</button>
                 </li>
                 <li role="presentation">
-                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=hot30">30天最热</a>
+                    <a href="/?sort=hot30">30天最热</a>
                 </li>
                 <li role="presentation">
-                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=hot7">7天最热</a>
+                    <a href="/?sort=hot7">7天最热</a>
                 </li>
                 <li role="presentation">
-                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=hot">最热</a>
+                    <a href="/?sort=hot">最热</a>
                 </li>
                 <li role="presentation">
-                    <a href="/;jsessionid=B4ABF411E5DFE442D010C4E60A098CC8?sort=no" class="red">消灭零回复</a>
+                    <a href="/?sort=no" class="red">消灭零回复</a>
                 </li>
             </ul>
             <div th:if="${pagination}!=null">
